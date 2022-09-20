@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blackjack</title>
+    <style>
+        body {
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            font-size: xx-large;
+            text-align: center;
+            background-image: url("https://media.istockphoto.com/vectors/vector-realistic-isolated-green-poker-table-for-decoration-vector-id1299608766?k=20&m=1299608766&s=612x612&w=0&h=ZwlBIc1B5noT2uVZG9yighu1FLc5NoeWrk3KloKsdKM=");
+            background-size: cover;
+            color: white;
+            font-weight: bold;
+        }
+
+        h1 {
+            color: goldenrod;
+        }
+
+        #message-el {
+            font-style: italic;
+        }
+
+        button {
+            background-color: goldenrod;
+            color: #016f32;
+            width: 150px;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            font-weight: bold;
+            border: none;
+            border-radius: 2px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Blackjack</h1>
+    <p id="message-el">Want to play a round?</p>
+    <p id="cards-el">Cards:</p>
+    <p id="sum-el">Sum:</p>
+    <button onclick="startGame()">Start Game</button>
+    <button onclick="newCard()">Grab a new card</button>
+    <!-- <p id="greeting-el"></p> -->
+    <p id="player-el"></p>
+
+
+    <script>
+        // før Objects er det let
+        let player = {
+            name: "Kenneth",
+            chips: 200,
+            // sayHello: function () { // er en Method altså funksjon, i likhet med document.getElementById() for eksempel
+            //     console.log("Heisann!")
+            // }
+        }
+
+        // player.sayHello() for invoking the function inside the Object
+
+
+        //Variables
+        let playerEl = document.getElementById("player-el")
+        playerEl.textContent = player.name + ": $" + player.chips // HUSK + " $" før player.chips 
+        let messageEl = document.getElementById("message-el")
+        let firstCard = getRandomCard()
+        let secondCard = getRandomCard()
+        let cards = [firstCard, secondCard] // Array - ordered list to store items
+        let sum = firstCard + secondCard
+        let hasBlackJack = false
+        let isAlive = false
+        let message = "";
+        let sumEl = document.querySelector("#sum-el")// A new dynamic way to get elements from html document
+        let cardsEl = document.querySelector("#cards-el")// A new dynamic way to get elements from html document
+
+
+        console.log(cards)
+
+        //Functions
+        function getRandomCard() {
+            let randomNumber = Math.floor(Math.random() * 13) + 1
+            if (randomNumber > 10) {
+                return 10
+            } else if (randomNumber === 1) {
+                return 11
+            } else {
+                return randomNumber
+            }
+        }
+
+        function startGame() {
+            let firstCard = getRandomCard()
+            let secondCard = getRandomCard()
+            cards = [firstCard, secondCard]
+            sum = firstCard + secondCard
+            isAlive = true
+            renderGame()
+        }
+
+        function renderGame() {
+            // render out firstCard and secondCard
+            cardsEl.textContent = "Cards: "
+            //       START       FINISH       STEP SIZE
+            for (i = 0; i < cards.length; i++) [
+                cardsEl.textContent += cards[i] + " " //+ " " adds a space with the + " " to each word in the sentence
+            ]
+            //render out ALL the cards we have
+            if (sum <= 20) {// if the sum is less than or equal to 20 output below
+                message = "Do you want to draw a new card?"
+            } else if (sum === 21) {// if sum is exactly 21 output below
+                message = "You've got Blackjack"
+                hasBlackJack = true
+            } else { // if none above hits, output below
+                message = "You're out of the game!"
+                isAlive = false
+            }
+            messageEl.textContent = message
+            sumEl.textContent = "Sum: " + sum
+        }
+
+        // legg inn content av function inn i if setningen
+        function newCard() {
+            if (isAlive === true && hasBlackJack === false) {
+                let card = getRandomCard()
+                sum += card
+                cards.push(card)
+                console.log(cards)
+                renderGame()
+            }
+        }
+
+
+
+        // ctrl/cmd + D to select multiple lines of same text
+
+
+
+
+        // cards.push(6)
+        // console.log(cards)
+
+
+
+        // let messages = ["Hey, how's it going?",
+        //     "I'm doing great, thank you! How about you?",
+        //     "All good here. Benn working on my portfolio lately.", "Same here", "Great to hear"]
+
+        // let sentence = ["Hello", "my", "name", "is", "Per"]
+        // let greetingEl = document.getElementById("greeting-el")
+
+
+
+        // let newMessage = "Same here!"
+
+        // messages.push(newMessage)
+
+        // console.log(messages)
+
+        // let popped = messages.pop(3)
+
+        // console.log(popped)
+
+
+    </script>
+
+
+</body>
+
+</html>
